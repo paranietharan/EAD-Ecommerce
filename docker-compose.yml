@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  mysql:
+    container_name: ms_mysql
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: teamz
+      MYSQL_DATABASE: teamz_db
+      MYSQL_USER: teamz
+      MYSQL_PASSWORD: teamz
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3307:3306"  # Use host port 3307 to avoid conflicts with local MySQL
+    networks:
+      - microservices-net
+    restart: unless-stopped
+
+  phpmyadmin:
+    container_name: ms_phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql  # Connects to the 'mysql' service
+      PMA_USER: teamz
+      PMA_PASSWORD: teamz
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - microservices-net
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo
+    container_name: mongo_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: teamz
+      MONGO_INITDB_ROOT_PASSWORD: teamz
+    volumes:
+      - mongo_data:/data/db  # Updated volume for MongoDB data persistence
+    ports:
+      - 27017:27017
+    networks:
+      - microservices-net
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo_express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: teamz
+      ME_CONFIG_MONGODB_ADMINPASSWORD: teamz
+      ME_CONFIG_MONGODB_SERVER: mongo_db  # Refers to MongoDB container name
+    ports:
+      - 8082:8081
+    depends_on:
+      - mongodb
+    networks:
+      - microservices-net
+    restart: always
+
+  mail-dev:
+    container_name: ms_mail_dev
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+    networks:
+      - microservices-net
+    restart: unless-stopped
+
+networks:
+  microservices-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  mongo_data:
