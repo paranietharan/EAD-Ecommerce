@@ -47,6 +47,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.DETACH, orphanRemoval = true)
+    private ForgotPassword forgotPassword;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
