@@ -1,0 +1,15 @@
+eureka:
+  client:
+    register-with-eureka: false
+server:
+  port: 8222
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: customer
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/v1/auth/**, /forgotPassword/**
+
