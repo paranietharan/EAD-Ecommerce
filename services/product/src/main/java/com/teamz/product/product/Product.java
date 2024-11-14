@@ -21,6 +21,9 @@ public class Product {
     private String description;
     private double availableQuantity;
     private BigDecimal price;
+    @Lob
+    @Column(name = "product_img", columnDefinition = "LONGBLOB")
+    private byte[] productImg;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
