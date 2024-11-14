@@ -2,15 +2,9 @@ package com.teamz.product.product;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -19,5 +13,29 @@ public class ProductController {
 
     private final ProductService service;
 
+    // Adding a new product
+    @PostMapping
+    public ResponseEntity<Integer> createProduct(
+            @RequestBody @Valid ProductRequest request
+    ) {
+        return ResponseEntity.ok(service.createProduct(request));
+    }
 
+    // Getting a product by id
+    @GetMapping("/{product-id}")
+    public ResponseEntity<ProductResponse> findById(
+            @PathVariable("product-id") Integer productId
+    ) {
+        return ResponseEntity.ok(service.findById(productId));
+    }
+
+    // Getting all products
+    @GetMapping
+    public ResponseEntity<Page<ProductResponse>> findAll(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "100") int limit,
+            @RequestParam(defaultValue = "id") String sortBy
+    ) {
+        return ResponseEntity.ok(service.findAll(page, limit, sortBy));
+    }
 }
