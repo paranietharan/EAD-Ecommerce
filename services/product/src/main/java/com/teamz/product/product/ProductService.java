@@ -43,7 +43,12 @@ public class ProductService {
         product.setPrice(request.price());
         product.setAvailableQuantity(request.availableQuantity());
         product.setDescription(request.description());
-        product.setProductImg(request.productImg());
+
+        if(request.productImg() != null) {
+            product.setProductImg(request.productImg());
+        } else {
+            product.setProductImg(null);
+        }
 
         // get the category from the db
         // Update the category
