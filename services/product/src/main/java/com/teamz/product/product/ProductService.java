@@ -1,5 +1,7 @@
 package com.teamz.product.product;
 
+import com.teamz.product.category.Category;
+import com.teamz.product.category.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     private final ProductRepository repository;
     private final ProductMapper mapper;
+    private final CategoryRepository categoryRepository;
 
     public Integer createProduct(@Valid ProductRequest request) {
         var product = mapper.toProduct(request);
@@ -29,5 +32,29 @@ public class ProductService {
     public Page<ProductResponse> findAll(int page, int limit, String sortBy) {
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(sortBy));
         return repository.findAll(pageable).map(mapper::toProductResponse);
+    }
+
+    public void updateProduct(@Valid UpdateProductRequest request) {
+        // Update the product
+        var product = repository.findById(request.id())
+                .orElseThrow(() -> new EntityNotFoundException("Product not found with ID:: " + request.id()));
+
+        product.setName(request.name());
+        product.setPrice(request.price());
+        product.setAvailableQuantity(request.availableQuantity());
+        product.setDescription(request.description());
+        product.setProductImg(request.productImg());
+
+        // get the category from the db
+        // Update the category
+        product.setCategory(
+                categoryRepository.findById(request.categoryId())
+                        .orElseThrow(() -> new EntityNotFoundException("Category not found with ID:: " + request.categoryId()))
+        );
+        repository.save(product);
+    }
+
+    public void deleteProduct(Integer productId) {
+        repository.deleteById(productId);
     }
 }
