@@ -54,4 +54,6 @@ public class ProductController {
         service.deleteProduct(productId);
         return ResponseEntity.noContent().build();
     }
+
+    // TODO: purchase a product
 }
