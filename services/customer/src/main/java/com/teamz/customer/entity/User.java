@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+
 @Entity
 @Table(name = "users")
 @AllArgsConstructor
@@ -47,9 +48,13 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Embedded
+    private Address address;
+
+    private Integer phoneNo;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.DETACH, orphanRemoval = true)
     private ForgotPassword forgotPassword;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
