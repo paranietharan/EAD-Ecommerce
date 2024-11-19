@@ -1,4 +1,4 @@
-package DTO;
+package com.teamz.customer.DTO;
 
 import com.teamz.customer.entity.Address;
 import lombok.AllArgsConstructor;

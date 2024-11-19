@@ -1,6 +1,8 @@
 package com.teamz.customer.service;
 
-import DTO.CustomerDTO;
+import com.teamz.customer.DTO.CustomerDTO;
+import com.teamz.customer.DTO.UpdateCustomerDetailsDTO;
+import com.teamz.customer.entity.Address;
 import com.teamz.customer.entity.User;
 import com.teamz.customer.exceptions.CustomerNotFoundException;
 import com.teamz.customer.repository.CustomerRepository;
@@ -14,9 +16,23 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public CustomerDTO getCustomerByID(Long id) {
-            User user=customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException("Customer with ID " + id + " not found"));
+    public CustomerDTO addAddressForACustomer(Long id, Address address) {
+        User user = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer with ID " + id + " not found"));
+        user.setAddress(address);
+        User updatedUser = customerRepository.save(user);
 
+        return CustomerDTO.builder()
+                .name(updatedUser.getName())
+                .userName(updatedUser.getUsername())
+                .email(updatedUser.getEmail())
+                .address(updatedUser.getAddress())
+                .phoneNo(updatedUser.getPhoneNo())
+                .build();
+    }
+
+    public CustomerDTO getCustomerByID(Long id) {
+        User user=customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException("Customer with ID " + id + " not found"));
 
         return CustomerDTO.builder()
                 .name(user.getName())
@@ -24,5 +40,53 @@ public class CustomerService {
                 .address(user.getAddress() != null ? user.getAddress() : null)
                 .phoneNo(user.getPhoneNo())
                 .build();
+    }
+
+    public void updateCustomerDetails(Long id, UpdateCustomerDetailsDTO updateCustomerDetailsDTO) {
+        User user=customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException("Customer with ID " + id + " not found"));
+
+        if (updateCustomerDetailsDTO.getName() != null){
+            user.setName(updateCustomerDetailsDTO.getName());
+        }
+        if (updateCustomerDetailsDTO.getPhoneNo()!=null){
+            user.setPhoneNo(updateCustomerDetailsDTO.getPhoneNo());
+        }
+
+        User updatedUser=customerRepository.save(user);
+    }
+
+
+    public void updateCustomerAddress(Long id, Address address) {
+        User user = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer with ID " + id + " not found"));
+
+        Address existingAddress = user.getAddress();
+
+        if (address.getHouseNo() != null) {
+            existingAddress.setHouseNo(address.getHouseNo());
+        }
+        if (address.getStreet() != null) {
+            existingAddress.setStreet(address.getStreet());
+        }
+        if (address.getCity() != null) {
+            existingAddress.setCity(address.getCity());
+        }
+        if (address.getDistrict() != null) {
+            existingAddress.setDistrict(address.getDistrict());
+        }
+        if (address.getProvince() != null) {
+            existingAddress.setProvince(address.getProvince());
+        }
+        if (address.getPostalCode() != null) {
+            existingAddress.setPostalCode(address.getPostalCode());
+        }
+
+        user.setAddress(existingAddress);
+
+        customerRepository.save(user);
+    }
+
+    public void DeleteCustomerId(Long id) {
+        customerRepository.deleteById(id);
     }
 }
