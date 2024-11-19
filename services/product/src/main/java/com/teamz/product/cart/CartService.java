@@ -1,9 +1,10 @@
 package com.teamz.product.cart;
 
-import com.teamz.product.product.Product;
 import com.teamz.product.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,11 @@ public class CartService {
 
         // If the product is already in the cart, update the quantity
         if (cartItem != null) {
+            // If the quantity is negative or zero, remove the product from the cart
+            if (quantity == 0) {
+                cartItemRepository.delete(cartItem);
+                return;
+            }
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
             cartItemRepository.save(cartItem);
         } else {
@@ -44,5 +50,31 @@ public class CartService {
             cartItemRepository.save(cartItem);
         }
 
+    }
+
+
+    public List<CartResponse> getCartItems(Long userId) {
+        // Get cart from user
+        Cart cart = cartRepository.findByUserId(userId);
+
+        // If cart is not found, return an empty list
+        if (cart == null) {
+            return List.of();
+        }
+
+        // Get cart items from the cart
+        List<CartItem> cartItems = cartItemRepository.findByCartId(cart.getId());
+
+        // Convert cart items to cart response
+        return cartItems.stream()
+                .map(cartItem -> new CartResponse(
+                        cartItem.getProduct().getId(),
+                        cartItem.getProduct().getName(),
+                        cartItem.getProduct().getDescription(),
+                        cartItem.getProduct().getPrice(),
+                        cartItem.getQuantity(),
+                        cartItem.getProduct().getProductImg()
+                ))
+                .toList();
     }
 }

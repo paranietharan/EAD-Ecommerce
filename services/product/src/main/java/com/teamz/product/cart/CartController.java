@@ -2,10 +2,9 @@ package com.teamz.product.cart;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/cart")
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CartController {
     private final CartService cartService;
 
-    //Add items to cart
+    // Add items to cart
     @PostMapping
     public ResponseEntity<Integer> addItemToCart(
             @RequestParam Long productId,
@@ -23,7 +22,12 @@ public class CartController {
         cartService.addItemToCart(productId, quantity, userId);
         return ResponseEntity.ok().build();
     }
-    // TODO: Remove items from cart
-    // TODO: Get items from cart
-    // TODO: Update items in cart(change quantity)
+
+    // Get items from cart
+    @GetMapping
+    public ResponseEntity<List<CartResponse>> getCartItems(
+            @RequestParam Long userId
+    ) {
+        return ResponseEntity.ok(cartService.getCartItems(userId));
+    }
 }
