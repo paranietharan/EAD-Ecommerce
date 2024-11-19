@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 public record UpdateProductRequest(
         @NotNull(message = "Product ID is required")
-        Integer id,
+        Long id,
         String name,
         String description,
         double availableQuantity,

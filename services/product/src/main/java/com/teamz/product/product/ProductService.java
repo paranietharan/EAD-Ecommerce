@@ -18,12 +18,12 @@ public class ProductService {
     private final ProductMapper mapper;
     private final CategoryRepository categoryRepository;
 
-    public Integer createProduct(@Valid ProductRequest request) {
+    public Long createProduct(@Valid ProductRequest request) {
         var product = mapper.toProduct(request);
         return repository.save(product).getId();
     }
 
-    public ProductResponse findById(Integer id) {
+    public ProductResponse findById(Long id) {
         return repository.findById(id)
                 .map(mapper::toProductResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with ID:: " + id));
@@ -59,7 +59,7 @@ public class ProductService {
         repository.save(product);
     }
 
-    public void deleteProduct(Integer productId) {
+    public void deleteProduct(Long productId) {
         repository.deleteById(productId);
     }
 }

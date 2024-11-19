@@ -15,7 +15,7 @@ public class ProductController {
 
     // Adding a new product
     @PostMapping
-    public ResponseEntity<Integer> createProduct(
+    public ResponseEntity<Long> createProduct(
             @RequestBody @Valid ProductRequest request
     ) {
         return ResponseEntity.ok(service.createProduct(request));
@@ -24,7 +24,7 @@ public class ProductController {
     // Getting a product by id
     @GetMapping("/{product-id}")
     public ResponseEntity<ProductResponse> findById(
-            @PathVariable("product-id") Integer productId
+            @PathVariable("product-id") Long productId
     ) {
         return ResponseEntity.ok(service.findById(productId));
     }
@@ -49,7 +49,7 @@ public class ProductController {
     // Deleting a product
     @DeleteMapping("/{product-id}")
     public ResponseEntity<Void> deleteProduct(
-            @PathVariable("product-id") Integer productId
+            @PathVariable("product-id") Long productId
     ) {
         service.deleteProduct(productId);
         return ResponseEntity.noContent().build();

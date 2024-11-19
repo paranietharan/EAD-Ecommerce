@@ -1,6 +1,5 @@
 package com.teamz.product.cart;
 
-import com.teamz.product.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
 

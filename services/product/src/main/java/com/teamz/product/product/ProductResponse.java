@@ -3,7 +3,7 @@ package com.teamz.product.product;
 import java.math.BigDecimal;
 
 public record ProductResponse(
-        Integer id,
+        Integer Long,
         String name,
         String description,
         double availableQuantity,
