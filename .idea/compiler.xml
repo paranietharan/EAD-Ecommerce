@@ -20,7 +20,7 @@
       <module name="config-server" options="-parameters" />
       <module name="customer" options="" />
       <module name="discovery" options="-parameters" />
-      <module name="gateway" options="" />
+      <module name="gateway" options="-parameters" />
       <module name="product" options="-parameters" />
     </option>
   </component>

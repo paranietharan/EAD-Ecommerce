@@ -30,4 +30,6 @@ public class CartController {
     ) {
         return ResponseEntity.ok(cartService.getCartItems(userId));
     }
+
+    // TODO: Delete item from cart
 }
