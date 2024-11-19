@@ -1,20 +1,21 @@
-package com.teamz.customer.utils;
+package com.teamz.customer.DTO;
 
-import com.teamz.customer.entity.UserRole;
+import com.teamz.customer.entity.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class RegisterRequest {
+public class CustomerDTO {
     private String name;
-    private String email;
     private String userName;
-    private String password;
-    private UserRole userRole;
+    private String email;
+    private Address address;
     private Integer phoneNo;
+
+
 }
