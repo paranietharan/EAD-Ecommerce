@@ -77,4 +77,25 @@ public class CartService {
                 ))
                 .toList();
     }
+
+    public void deleteItemFromCart(Long productId, Long userId) {
+        // Get cart from user
+        Cart cart = cartRepository.findByUserId(userId);
+
+        // If cart is not found, return
+        if (cart == null) {
+            return;
+        }
+
+        // Get cart item from the cart
+        CartItem cartItem = cartItemRepository.findByCartIdAndProductId(cart.getId(), productId);
+
+        // If cart item is not found, return
+        if (cartItem == null) {
+            return;
+        }
+
+        // Delete the cart item
+        cartItemRepository.delete(cartItem);
+    }
 }

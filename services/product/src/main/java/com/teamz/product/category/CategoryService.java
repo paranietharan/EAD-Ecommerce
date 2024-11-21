@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
@@ -23,5 +25,15 @@ public class CategoryService {
         category.setName(request.name());
         category.setDescription(request.description());
         return repository.save(category).getId();
+    }
+
+    public List<CategoryResponse> getAllCategories() {
+        return repository.findAll().stream()
+                .map(category -> new CategoryResponse(
+                        category.getId(),
+                        category.getName(),
+                        category.getDescription()
+                ))
+                .toList();
     }
 }

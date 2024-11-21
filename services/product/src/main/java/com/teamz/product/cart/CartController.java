@@ -31,5 +31,13 @@ public class CartController {
         return ResponseEntity.ok(cartService.getCartItems(userId));
     }
 
-    // TODO: Delete item from cart
+    // Delete Item from cart - delete particular item completely from cart
+    @DeleteMapping
+    public ResponseEntity<Integer> deleteItemFromCart(
+            @RequestParam Long productId,
+            @RequestParam Long userId
+    ) {
+        cartService.deleteItemFromCart(productId, userId);
+        return ResponseEntity.ok().build();
+    }
 }

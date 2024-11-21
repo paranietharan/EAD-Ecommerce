@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/category")
 @AllArgsConstructor
@@ -25,6 +27,12 @@ public class CategoryController {
             @RequestBody @Valid UpdateCategoryRequest request
     ) {
         return ResponseEntity.ok(categoryService.updateCategory(request));
+    }
+
+    // Get all categories
+    @GetMapping
+    public ResponseEntity<List<CategoryResponse>> getAllCategories() {
+        return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
     //TODO: Remove category
