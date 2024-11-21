@@ -13,7 +13,7 @@ import java.util.List;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    // Add category
+    // Add category - checked
     @PostMapping
     public ResponseEntity<Integer> createCategory(
             @RequestBody @Valid CategoryRequest request
@@ -21,7 +21,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.createCategory(request));
     }
 
-    // Update category details
+    // Update category details - checked
     @PutMapping
     public ResponseEntity<Integer> updateCategory(
             @RequestBody @Valid UpdateCategoryRequest request
@@ -29,7 +29,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.updateCategory(request));
     }
 
-    // Get all categories
+    // Get all categories -checked
     @GetMapping
     public ResponseEntity<List<CategoryResponse>> getAllCategories() {
         return ResponseEntity.ok(categoryService.getAllCategories());
