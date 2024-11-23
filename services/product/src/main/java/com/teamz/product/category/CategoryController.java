@@ -35,6 +35,11 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
-    //TODO: Remove category
-    // Ask to delete all products in the category or assign a new category to the products
+    // Delete category - checked
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Integer> deleteCategory(
+            @PathVariable Integer categoryId
+    ) {
+        return ResponseEntity.ok(categoryService.deleteCategory(categoryId));
+    }
 }

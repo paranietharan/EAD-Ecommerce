@@ -36,4 +36,9 @@ public class CategoryService {
                 ))
                 .toList();
     }
+
+    public Integer deleteCategory(Integer categoryId) {
+        repository.deleteById(categoryId);
+        return categoryId;
+    }
 }
