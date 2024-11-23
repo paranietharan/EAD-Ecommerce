@@ -36,7 +36,7 @@ public class ProductService {
 
     public void updateProduct(@Valid UpdateProductRequest request) {
         // Update the product
-        var product = repository.findById(request.id())
+        Product product = repository.findById(request.id())
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with ID:: " + request.id()));
 
         product.setName(request.name());
@@ -56,6 +56,8 @@ public class ProductService {
                 categoryRepository.findById(request.categoryId())
                         .orElseThrow(() -> new EntityNotFoundException("Category not found with ID:: " + request.categoryId()))
         );
+        // Ensure the product ID is correct and set
+        System.out.println("Updating product with ID: " + product.getId());
         repository.save(product);
     }
 
