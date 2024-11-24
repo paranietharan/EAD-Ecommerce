@@ -1,6 +1,5 @@
 package com.teamz.product.product;
 
-import com.teamz.product.category.Category;
 import com.teamz.product.category.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -10,6 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +21,9 @@ public class ProductService {
     private final ProductMapper mapper;
     private final CategoryRepository categoryRepository;
 
-    public Long createProduct(@Valid ProductRequest request) {
+    public Long createProduct(
+            @Valid ProductRequest request
+    ) throws IOException {
         var product = mapper.toProduct(request);
         return repository.save(product).getId();
     }
@@ -34,7 +39,9 @@ public class ProductService {
         return repository.findAll(pageable).map(mapper::toProductResponse);
     }
 
-    public void updateProduct(@Valid UpdateProductRequest request) {
+    public void updateProduct(
+            @Valid UpdateProductRequest request
+    ) throws IOException {
         // Update the product
         Product product = repository.findById(request.id())
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with ID:: " + request.id()));
@@ -45,7 +52,7 @@ public class ProductService {
         product.setDescription(request.description());
 
         if(request.productImg() != null) {
-            product.setProductImg(request.productImg());
+            product.setProductImg(request.productImg().getBytes());
         } else {
             product.setProductImg(null);
         }
