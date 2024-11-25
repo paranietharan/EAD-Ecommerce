@@ -45,5 +45,4 @@ public class CustomerController {
         customerService.DeleteCustomerId(id);
         return ResponseEntity.ok("Customer Deleted Successfully");
     }
-
 }
