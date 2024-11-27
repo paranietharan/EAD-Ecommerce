@@ -2,6 +2,7 @@ package com.teamz.product.product;
 
 
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 
@@ -13,6 +14,6 @@ public record UpdateProductRequest(
         double availableQuantity,
         BigDecimal price,
         Integer categoryId,
-        byte[] productImg
+        MultipartFile productImg
 ) {
 }
