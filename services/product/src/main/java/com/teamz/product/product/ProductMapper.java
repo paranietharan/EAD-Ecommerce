@@ -2,10 +2,13 @@ package com.teamz.product.product;
 
 import com.teamz.product.category.Category;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 public class ProductMapper {
-    public Product toProduct(ProductRequest request) {
+    public Product toProduct(ProductRequest request) throws IOException {
         return Product.builder()
                 .name(request.name())
                 .description(request.description())
@@ -16,7 +19,7 @@ public class ProductMapper {
                                 .id(request.categoryId())
                                 .build()
                 )
-                .productImg(request.productImg())
+                .productImg(request.productImg().getBytes())
                 .build();
     }
 
