@@ -56,9 +56,11 @@ public class CategoryService {
                 .description("This is the default category for products that do not belong to any category")
                 .build();
 
-        // save th category if it does not exist
-        if(repository.findByName(category.getName()).isEmpty()) {
+        Category existingCategory = repository.findByName(category.getName());
+        if (existingCategory == null) {
             repository.save(category);
+        } else {
+            category = existingCategory;
         }
 
         // change the category of all products to null
