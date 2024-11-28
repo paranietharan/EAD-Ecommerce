@@ -64,4 +64,15 @@ public class AuthController {
 
         return ResponseEntity.ok(isValid);
     }
+
+    @GetMapping("/getUserIdFromToken")
+    public ResponseEntity<Integer> getUserIdFromToken(@RequestBody ValidateTokenRequest validateTokenRequest) {
+        String token = validateTokenRequest.getToken();
+        String username = jwtService.extractUsername(token); // Extract username from token
+
+        // Find the user by username
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+
+        return ResponseEntity.ok(user.getUserId());
+    }
 }
