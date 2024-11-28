@@ -49,9 +49,23 @@ public class CategoryService {
         // find all products in the category
         List<Product> products = productRepository.findByCategoryId(categoryId);
 
+        // when delete product, we need to create a new category other if the category is not exist
+        // they we need to assign all products that belong to the deleted category to the new category
+        Category category = Category.builder()
+                .name("Uncategorized")
+                .description("This is the default category for products that do not belong to any category")
+                .build();
+
+        Category existingCategory = repository.findByName(category.getName());
+        if (existingCategory == null) {
+            repository.save(category);
+        } else {
+            category = existingCategory;
+        }
+
         // change the category of all products to null
         for (Product product : products) {
-            product.setCategory(null);
+            product.setCategory(category);
             productRepository.save(product);
         }
 

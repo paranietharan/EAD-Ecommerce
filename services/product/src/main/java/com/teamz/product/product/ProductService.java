@@ -1,5 +1,6 @@
 package com.teamz.product.product;
 
+import com.teamz.product.category.Category;
 import com.teamz.product.category.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
