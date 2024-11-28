@@ -26,3 +26,4 @@ public class CorsConfiguration extends org.springframework.web.cors.CorsConfigur
         return new CorsWebFilter(source);
     }
 }
+
