@@ -60,4 +60,21 @@ public class ProductController {
         service.deleteProduct(productId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{product-id}/check-availability")
+    Boolean checkAvailability(
+            @PathVariable("product-id") Long productId,
+            @RequestParam("quantity") double quantity
+    ) {
+        return service.checkAvailability(productId, quantity);
+    }
+
+    @PutMapping("/{product-id}/update-quantity")
+    Boolean updateQuantity(
+            @PathVariable("product-id") Long productId,
+            @RequestParam("quantity") double quantity
+    ) {
+        return service.updateQuantity(productId, quantity);
+    }
+
 }
