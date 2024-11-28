@@ -3,6 +3,7 @@ package com.teamz.product.category;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class CategoryController {
 
     // Add category - checked
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Integer> createCategory(
             @RequestBody @Valid CategoryRequest request
     ) {
