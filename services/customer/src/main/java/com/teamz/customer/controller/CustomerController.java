@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/customer")
+//@CrossOrigin(origins = "*", allowCredentials = "true")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -45,5 +46,4 @@ public class CustomerController {
         customerService.DeleteCustomerId(id);
         return ResponseEntity.ok("Customer Deleted Successfully");
     }
-
 }

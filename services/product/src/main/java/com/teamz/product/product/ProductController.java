@@ -4,7 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -14,10 +17,11 @@ public class ProductController {
     private final ProductService service;
 
     // Adding a new product -tested
+//    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Long> createProduct(
-            @RequestBody @Valid ProductRequest request
-    ) {
+            @ModelAttribute @Valid ProductRequest request
+    ) throws IOException {
         return ResponseEntity.ok(service.createProduct(request));
     }
 
@@ -41,7 +45,9 @@ public class ProductController {
 
     // Updating a product
     @PutMapping
-    public ResponseEntity<Void> updateProduct(@RequestBody @Valid UpdateProductRequest request) {
+    public ResponseEntity<Void> updateProduct(
+            @ModelAttribute @Valid UpdateProductRequest request
+    ) throws IOException {
         service.updateProduct(request);
         return ResponseEntity.noContent().build();
     }

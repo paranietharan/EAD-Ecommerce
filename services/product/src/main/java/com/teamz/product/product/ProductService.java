@@ -64,20 +64,4 @@ public class ProductService {
     public void deleteProduct(Long productId) {
         repository.deleteById(productId);
     }
-
-    public Boolean checkAvailability(Long productId, double quantity) {
-        return repository.findById(productId)
-                .map(product -> product.getAvailableQuantity() >= quantity)
-                .orElse(false);
-    }
-
-    public Boolean updateQuantity(Long productId, double quantity) {
-        return repository.findById(productId)
-                .map(product -> {
-                    product.setAvailableQuantity(product.getAvailableQuantity() - quantity);
-                    repository.save(product);
-                    return true;
-                })
-                .orElse(false);
-    }
 }

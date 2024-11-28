@@ -9,15 +9,11 @@ import com.teamz.customer.service.RefreshTokenService;
 import com.teamz.customer.utils.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth/")
 public class AuthController {
-
     private final AuthService authService;
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
@@ -67,5 +63,16 @@ public class AuthController {
         boolean isValid = jwtService.isTokenValid(token, user);
 
         return ResponseEntity.ok(isValid);
+    }
+
+    @GetMapping("/getUserIdFromToken")
+    public ResponseEntity<Integer> getUserIdFromToken(@RequestBody ValidateTokenRequest validateTokenRequest) {
+        String token = validateTokenRequest.getToken();
+        String username = jwtService.extractUsername(token); // Extract username from token
+
+        // Find the user by username
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+
+        return ResponseEntity.ok(user.getUserId());
     }
 }
