@@ -24,23 +24,34 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest registerRequest) {
-        var user = User.builder()
-                .name(registerRequest.getName())
-                .email(registerRequest.getEmail())
-                .userName(registerRequest.getUserName())
-                .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .role(registerRequest.getUserRole())
-                .build();
+        try {
+            var user = User.builder()
+                    .name(registerRequest.getName())
+                    .email(registerRequest.getEmail())
+                    .userName(registerRequest.getUserName())
+                    .password(passwordEncoder.encode(registerRequest.getPassword()))
+                    .role(registerRequest.getUserRole())
+                    .build();
 
-        User savedUser = userRepository.save(user);
-        var accessToken = jwtService.generateToken(savedUser);
-        var refreshToken = refreshTokenService.createRefreshToken(savedUser.getEmail());
+            User savedUser = userRepository.save(user);
+            var accessToken = jwtService.generateToken(savedUser);
+            var refreshToken = refreshTokenService.createRefreshToken(savedUser.getEmail());
 
-        return AuthResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken.getRefreshToken())
-                .build();
+            return AuthResponse.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken.getRefreshToken())
+                    .build();
+
+        } catch (Exception e) {
+            // Log the exception (optional but recommended for debugging)
+            System.err.println("Error during user registration: " + e.getMessage());
+            e.printStackTrace();
+
+            // Handle the error response accordingly
+            throw new RuntimeException("Registration failed: " + e.getMessage());
+        }
     }
+
 
     public AuthResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(
