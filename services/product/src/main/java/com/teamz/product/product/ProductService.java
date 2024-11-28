@@ -11,6 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -18,7 +21,9 @@ public class ProductService {
     private final ProductMapper mapper;
     private final CategoryRepository categoryRepository;
 
-    public Long createProduct(@Valid ProductRequest request) {
+    public Long createProduct(
+            @Valid ProductRequest request
+    ) throws IOException {
         var product = mapper.toProduct(request);
         return repository.save(product).getId();
     }
@@ -34,7 +39,9 @@ public class ProductService {
         return repository.findAll(pageable).map(mapper::toProductResponse);
     }
 
-    public void updateProduct(@Valid UpdateProductRequest request) {
+    public void updateProduct(
+            @Valid UpdateProductRequest request
+    ) throws IOException {
         // Update the product
         Product product = repository.findById(request.id())
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with ID:: " + request.id()));
@@ -45,7 +52,7 @@ public class ProductService {
         product.setDescription(request.description());
 
         if(request.productImg() != null) {
-            product.setProductImg(request.productImg());
+            product.setProductImg(request.productImg().getBytes());
         } else {
             product.setProductImg(null);
         }
@@ -63,5 +70,19 @@ public class ProductService {
 
     public void deleteProduct(Long productId) {
         repository.deleteById(productId);
+    }
+
+    public Boolean checkAvailability(Long productId, double quantity) {
+        Product product = repository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found with ID:: " + productId));
+        return product.getAvailableQuantity() >= quantity;
+    }
+
+    public Boolean updateQuantity(Long productId, double quantity) {
+        Product product = repository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found with ID:: " + productId));
+        product.setAvailableQuantity(product.getAvailableQuantity() - quantity);
+        repository.save(product);
+        return true;
     }
 }
