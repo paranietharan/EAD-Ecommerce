@@ -11,13 +11,13 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedOriginPatterns:
-              - "http://192.168.56.1:3000" # Only the frontend domain
+              - "http://localhost:3000" # Only the frontend domain
             allowedMethods:
-              - GET
               - POST
               - PUT
               - DELETE
               - OPTIONS
+              - GET
             allowedHeaders:
               - "*"
             allowCredentials: true # Required for cookies or auth headers
