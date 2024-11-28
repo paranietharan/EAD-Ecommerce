@@ -53,6 +53,7 @@ public class OrderService {
                 .totalAmount(order.getTotalAmount())
                 .createdDate(order.getCreatedDate())
                 .customerId(order.getCustomerId())
+                .paymentId(order.getPaymentId())
                 .build()).getContent();
     }
 
@@ -62,10 +63,14 @@ public class OrderService {
                 .totalAmount(order.getTotalAmount())
                 .createdDate(order.getCreatedDate())
                 .customerId(order.getCustomerId())
+                .paymentId(order.getPaymentId())
                 .build()).collect(Collectors.toList());
     }
 
     public String createOrder(OrderRequest orderRequest){
+        if (orderRequest.getPaymentId() == null){
+            return "Payment ID is required";
+        }
         List<OrderLine> orderLines = orderRequest.getOrderLines();
         String checkProducts = CheckProductsOnOrderLine(orderLines);
         if (checkProducts.equals("All products are available")){
@@ -73,6 +78,7 @@ public class OrderService {
             order.setTotalAmount(orderRequest.getTotalAmount());
             order.setCustomerId(orderRequest.getCustomerId());
             order.setOrderLines(orderRequest.getOrderLines());
+            order.setPaymentId(orderRequest.getPaymentId());
             for (OrderLine orderLine : order.getOrderLines()) {
                 orderLine.setOrder(order);
                 productClient.updateQuantity(orderLine.getProductId(), orderLine.getQuantity());
@@ -107,6 +113,7 @@ public class OrderService {
             return false;
         }
         order.setTotalAmount(request.getTotalAmount());
+        order.setPaymentId(request.getPaymentId());
         for(OrderLine orderLine : request.getOrderLines()){
             OrderLine line = orderLineRepository.findById(orderLine.getId())
                     .orElseThrow(() -> new EntityNotFoundException("OrderLine not found with ID:: " + orderLine.getId()));

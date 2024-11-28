@@ -33,4 +33,5 @@ public class Order {
     @ToString.Exclude
     private List<OrderLine> orderLines;
     private Integer customerId;
+    private Long paymentId;
 }
