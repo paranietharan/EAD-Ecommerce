@@ -24,3 +24,9 @@ spring:
               - Path=/api/v1/products/**, /api/v1/category/**, /api/v1/cart/**
 #          filters:
 #              - AuthenticationFilter
+        - id: order-service
+          uri: http://localhost:7080
+          predicates:
+            - Path=/api/v1/orders/**
+#          filters:
+#              - AuthenticationFilter

@@ -1,9 +1,11 @@
 package com.teamz.order.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,9 +22,15 @@ public class Order {
     @GeneratedValue
     private Integer id;
     private BigDecimal totalAmount;
-    @CreatedDate
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdDate;
-    @OneToMany(mappedBy = "order")
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = LocalDateTime.now();
+    }
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+    @JsonManagedReference
+    @ToString.Exclude
     private List<OrderLine> orderLines;
+    private Integer customerId;
 }

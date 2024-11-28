@@ -1,9 +1,11 @@
 package com.teamz.order.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,9 +16,11 @@ public class OrderLine {
     @Id
     @GeneratedValue
     private Integer id;
-    @ManyToOne
-    @JoinColumn(name = "order_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
+    @JsonBackReference
+    @ToString.Exclude
     private Order order;
-    private Integer productId;
+    private Long productId;
     private Integer quantity;
 }
