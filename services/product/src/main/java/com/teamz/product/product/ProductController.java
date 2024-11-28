@@ -34,14 +34,26 @@ public class ProductController {
     }
 
     // Getting all products - tested
+//    @GetMapping
+//    public ResponseEntity<Page<ProductResponse>> findAll(
+//            @RequestParam(defaultValue = "1") int page,
+//            @RequestParam(defaultValue = "100") int limit,
+//            @RequestParam(defaultValue = "id") String sortBy
+//    ) {
+//        return ResponseEntity.ok(service.findAll(page, limit, sortBy));
+//    }
     @GetMapping
     public ResponseEntity<Page<ProductResponse>> findAll(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "100") int limit,
-            @RequestParam(defaultValue = "id") String sortBy
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice
     ) {
-        return ResponseEntity.ok(service.findAll(page, limit, sortBy));
+        return ResponseEntity.ok(service.findAll(page, limit, sortBy, categoryId, minPrice, maxPrice));
     }
+
 
     // Updating a product
     @PutMapping

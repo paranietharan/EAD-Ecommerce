@@ -34,10 +34,23 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with ID:: " + id));
     }
 
-    public Page<ProductResponse> findAll(int page, int limit, String sortBy) {
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(sortBy));
-        return repository.findAll(pageable).map(mapper::toProductResponse);
+//    public Page<ProductResponse> findAll(int page, int limit, String sortBy) {
+//        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(sortBy));
+//        return repository.findAll(pageable).map(mapper::toProductResponse);
+//    }
+    public Page<ProductResponse> findAll(int page, int limit, String sortBy, Long categoryId, Double minPrice, Double maxPrice) {
+    Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(sortBy));
+
+    // Custom filtering logic
+    if (categoryId != null || minPrice != null || maxPrice != null) {
+        return repository.findAllWithFilters(categoryId, minPrice, maxPrice, pageable)
+                .map(mapper::toProductResponse);
     }
+
+    // Default behavior
+    return repository.findAll(pageable).map(mapper::toProductResponse);
+    }
+
 
     public void updateProduct(
             @Valid UpdateProductRequest request
