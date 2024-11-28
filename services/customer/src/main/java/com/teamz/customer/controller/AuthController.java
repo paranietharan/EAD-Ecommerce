@@ -65,7 +65,7 @@ public class AuthController {
         return ResponseEntity.ok(isValid);
     }
 
-    @GetMapping("/getUserIdFromToken")
+    @PostMapping("/getUserIdFromToken")
     public ResponseEntity<Integer> getUserIdFromToken(@RequestBody ValidateTokenRequest validateTokenRequest) {
         String token = validateTokenRequest.getToken();
         String username = jwtService.extractUsername(token); // Extract username from token
