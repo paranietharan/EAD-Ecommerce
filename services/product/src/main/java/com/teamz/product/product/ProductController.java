@@ -17,7 +17,7 @@ public class ProductController {
     private final ProductService service;
 
     // Adding a new product -tested
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Long> createProduct(
             @ModelAttribute @Valid ProductRequest request
