@@ -7,6 +7,9 @@ import com.teamz.customer.service.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+
 @RestController
 @RequestMapping("/api/v1/customer")
 //@CrossOrigin(origins = "*", allowCredentials = "true")
@@ -41,9 +44,14 @@ public class CustomerController {
         return ResponseEntity.ok("Customer Address Updated Successfully");
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> DeleteCustomerId(@PathVariable("id") Long id){
         customerService.DeleteCustomerId(id);
         return ResponseEntity.ok("Customer Deleted Successfully");
+    }
+
+    @GetMapping("/getAllCustomers")
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers(){
+        return ResponseEntity.ok(customerService.getAllCustomers());
     }
 }

@@ -8,6 +8,9 @@ import com.teamz.customer.exceptions.CustomerNotFoundException;
 import com.teamz.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
@@ -88,5 +91,21 @@ public class CustomerService {
 
     public void DeleteCustomerId(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    public List<CustomerDTO> getAllCustomers() {
+        List<CustomerDTO> customers= new ArrayList<>();
+        List<User> users= customerRepository.findAll();
+        for (User user:users){
+            CustomerDTO customer= CustomerDTO.builder()
+                    .address(user.getAddress())
+                    .userName(user.getName())
+                    .phoneNo(user.getPhoneNo())
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .build();
+            customers.add(customer);
+        }
+        return customers;
     }
 }
