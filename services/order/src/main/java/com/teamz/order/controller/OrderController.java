@@ -15,7 +15,6 @@ import java.util.List;
 public class OrderController {
     final OrderService orderService;
 
-
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
@@ -54,5 +53,4 @@ public class OrderController {
     public ResponseEntity<Boolean> deleteOrder(@PathVariable("order-id") Integer orderId) {
         return ResponseEntity.ok(orderService.deleteOrder(orderId));
     }
-
 }

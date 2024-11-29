@@ -43,6 +43,15 @@ spring:
 #          filters:
 #            - AuthenticationFilter
 
+        # Order Service
+        - id: order-service
+          uri: http://localhost:7080 # Backend customer service
+          predicates:
+            - Path=/api/v1/orders/**
+          filters:
+            - AuthenticationFilter
+
+
 
 # Eureka client configuration
 eureka:
