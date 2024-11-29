@@ -98,4 +98,5 @@ public class CartService {
         // Delete the cart item
         cartItemRepository.delete(cartItem);
     }
+
 }
