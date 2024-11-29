@@ -37,4 +37,5 @@ public class ShippingDetails {
 
     @OneToOne(mappedBy = "shippingDetails")
     private Order order;
+
 }
