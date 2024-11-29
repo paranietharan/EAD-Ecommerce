@@ -56,5 +56,5 @@ spring:
 # Eureka client configuration
 eureka:
   client:
-    register-with-eureka: false # Set to true if using Eureka for service discovery
-    fetch-registry: false       # Fetch registry only if needed
+    register-with-ereka: false # Set to true if using Eureka for service discovery
+    fetch-registry: true        # Fetch registry only if needed

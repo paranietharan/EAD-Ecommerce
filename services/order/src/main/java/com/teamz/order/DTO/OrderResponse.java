@@ -2,6 +2,7 @@ package com.teamz.order.DTO;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.teamz.order.entity.OrderLine;
+import com.teamz.order.entity.ShippingDetails;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class OrderResponse {
     private LocalDateTime createdDate;
     private Integer customerId;
     private Long paymentId;
+    private ShippingDetails shippingDetails;
 
 
 }
