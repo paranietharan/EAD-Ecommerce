@@ -16,6 +16,6 @@ public record WishListResponse(
         BigDecimal productPrice,
         @Positive(message = "Product quantity must be greater than 0")
         double productQuantity,
-        byte[] productImg
+        String productImg
 ) {
 }

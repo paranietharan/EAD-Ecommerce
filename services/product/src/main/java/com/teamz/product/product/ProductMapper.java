@@ -19,7 +19,7 @@ public class ProductMapper {
                                 .id(request.categoryId())
                                 .build()
                 )
-                .productImg(request.productImg().getBytes())
+                .productImg(request.productImg())
                 .build();
     }
 

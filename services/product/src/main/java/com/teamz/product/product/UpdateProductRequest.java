@@ -14,6 +14,6 @@ public record UpdateProductRequest(
         double availableQuantity,
         BigDecimal price,
         Integer categoryId,
-        MultipartFile productImg
+        String productImg
 ) {
 }

@@ -23,8 +23,8 @@ public class Product {
     private String description;
     private double availableQuantity;
     private BigDecimal price;
-    @Lob
-    @Column(name = "product_img", columnDefinition = "LONGBLOB")
+
+    @Column(name = "product_img")
     private String productImg;
 
     @ManyToOne

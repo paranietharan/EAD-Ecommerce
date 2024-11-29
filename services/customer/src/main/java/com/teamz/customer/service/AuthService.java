@@ -24,7 +24,6 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest registerRequest) {
-        try {
             var user = User.builder()
                     .name(registerRequest.getName())
                     .email(registerRequest.getEmail())
@@ -41,15 +40,6 @@ public class AuthService {
                     .accessToken(accessToken)
                     .refreshToken(refreshToken.getRefreshToken())
                     .build();
-
-        } catch (Exception e) {
-            // Log the exception (optional but recommended for debugging)
-            System.err.println("Error during user registration: " + e.getMessage());
-            e.printStackTrace();
-
-            // Handle the error response accordingly
-            throw new RuntimeException("Registration failed: " + e.getMessage());
-        }
     }
 
 
