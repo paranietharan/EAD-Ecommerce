@@ -23,6 +23,16 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping
+    public ResponseEntity<Integer> changeCartItemsQuantity(
+            @RequestParam Long productId,
+            @RequestParam int quantity,
+            @RequestParam Long userId
+    ){
+        cartService.changeCartItemsQuantity(productId, quantity, userId);
+        return ResponseEntity.ok().build();
+    }
+
     // Get items from cart
     @GetMapping
     public ResponseEntity<List<CartResponse>> getCartItems(

@@ -98,4 +98,26 @@ public class CartService {
         // Delete the cart item
         cartItemRepository.delete(cartItem);
     }
+
+    public void changeCartItemsQuantity(Long productId, int quantity, Long userId) {
+        // fetch the cart for the user
+        // Get cart from user
+        Cart cart = cartRepository.findByUserId(userId);
+
+        // If cart is not found, return
+        if (cart == null) {
+            return;
+        }
+
+        // Get cart item from the cart
+        CartItem cartItem = cartItemRepository.findByCartIdAndProductId(cart.getId(), productId);
+
+        // If cart item is not found, return
+        if (cartItem == null) {
+            return;
+        }
+
+        cartItem.setQuantity(quantity);
+        cartItemRepository.save(cartItem);
+    }
 }
