@@ -2,6 +2,7 @@ package com.teamz.customer.service;
 
 import com.teamz.customer.entity.User;
 import com.teamz.customer.entity.UserRole;
+import com.teamz.customer.exceptions.UserAlreadyExistException;
 import com.teamz.customer.repository.UserRepository;
 import com.teamz.customer.utils.AuthResponse;
 import com.teamz.customer.utils.LoginRequest;
@@ -32,6 +33,10 @@ public class AuthService {
                     .role(registerRequest.getUserRole()==null?UserRole.USER:registerRequest.getUserRole())
                     .build();
 
+        if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
+            throw new UserAlreadyExistException("A user with the provided email already exists.");
+        }
+        else {
             User savedUser = userRepository.save(user);
             var accessToken = jwtService.generateToken(savedUser);
             var refreshToken = refreshTokenService.createRefreshToken(savedUser.getEmail());
@@ -40,6 +45,7 @@ public class AuthService {
                     .accessToken(accessToken)
                     .refreshToken(refreshToken.getRefreshToken())
                     .build();
+        }
     }
 
 
