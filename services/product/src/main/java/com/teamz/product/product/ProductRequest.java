@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Positive;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record ProductRequest(
         @NotNull(message = "Product name is required")
@@ -17,6 +18,6 @@ public record ProductRequest(
         BigDecimal price,
         @NotNull(message = "Product category is required")
         Integer categoryId,
-        String productImg
+        List<String> productImg
 ) {
 }

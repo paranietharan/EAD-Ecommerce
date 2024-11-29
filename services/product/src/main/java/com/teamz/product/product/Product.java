@@ -25,7 +25,9 @@ public class Product {
     private BigDecimal price;
 
     @Column(name = "product_img")
-    private String productImg;
+    @ElementCollection
+    @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
+    private List<String> productImg;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
