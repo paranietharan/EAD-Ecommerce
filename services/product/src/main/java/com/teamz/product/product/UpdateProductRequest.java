@@ -11,7 +11,7 @@ public record UpdateProductRequest(
         Long id,
         String name,
         String description,
-        double availableQuantity,
+        Long availableQuantity,
         BigDecimal price,
         Integer categoryId,
         MultipartFile productImg

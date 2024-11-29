@@ -6,7 +6,7 @@ public record ProductResponse(
         Long id,
         String name,
         String description,
-        double availableQuantity,
+        Long availableQuantity,
         BigDecimal price,
         byte[] productImg,
         Integer categoryId,

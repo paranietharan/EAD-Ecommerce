@@ -21,7 +21,7 @@ public class Product {
     private Long id;
     private String name;
     private String description;
-    private double availableQuantity;
+    private Long availableQuantity;
     private BigDecimal price;
     @Lob
     @Column(name = "product_img", columnDefinition = "LONGBLOB")

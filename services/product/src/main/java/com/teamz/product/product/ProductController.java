@@ -76,7 +76,7 @@ public class ProductController {
     @GetMapping("/{product-id}/check-availability")
     Boolean checkAvailability(
             @PathVariable("product-id") Long productId,
-            @RequestParam("quantity") double quantity
+            @RequestParam("quantity") Long quantity
     ) {
         return service.checkAvailability(productId, quantity);
     }
@@ -84,7 +84,7 @@ public class ProductController {
     @PutMapping("/{product-id}/update-quantity")
     Boolean updateQuantity(
             @PathVariable("product-id") Long productId,
-            @RequestParam("quantity") double quantity
+            @RequestParam("quantity") Long quantity
     ) {
         return service.updateQuantity(productId, quantity);
     }

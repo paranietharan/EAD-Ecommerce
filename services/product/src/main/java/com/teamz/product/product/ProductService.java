@@ -85,13 +85,13 @@ public class ProductService {
         repository.deleteById(productId);
     }
 
-    public Boolean checkAvailability(Long productId, double quantity) {
+    public Boolean checkAvailability(Long productId, Long quantity) {
         Product product = repository.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with ID:: " + productId));
         return product.getAvailableQuantity() >= quantity;
     }
 
-    public Boolean updateQuantity(Long productId, double quantity) {
+    public Boolean updateQuantity(Long productId, Long quantity) {
         Product product = repository.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with ID:: " + productId));
         product.setAvailableQuantity(product.getAvailableQuantity() - quantity);
