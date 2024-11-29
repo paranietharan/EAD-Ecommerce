@@ -2,11 +2,13 @@ package com.teamz.customer.controller;
 
 import com.teamz.customer.entity.RefreshToken;
 import com.teamz.customer.entity.User;
+import com.teamz.customer.exceptions.UserAlreadyExistException;
 import com.teamz.customer.repository.UserRepository;
 import com.teamz.customer.service.AuthService;
 import com.teamz.customer.service.JwtService;
 import com.teamz.customer.service.RefreshTokenService;
 import com.teamz.customer.utils.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +29,18 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {
-        return ResponseEntity.ok(authService.register(registerRequest));
+    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+        try {
+            return ResponseEntity.ok(authService.register(registerRequest));
+        }catch (UserAlreadyExistException e){
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .body(e.getMessage()); // Include the exception message in the response
+        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.FORBIDDEN)
+                    .body(e.getMessage()); // Include the exception message in the response
+        }
     }
 
     @PostMapping("/login")
