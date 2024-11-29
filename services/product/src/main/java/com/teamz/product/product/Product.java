@@ -25,7 +25,7 @@ public class Product {
     private BigDecimal price;
     @Lob
     @Column(name = "product_img", columnDefinition = "LONGBLOB")
-    private byte[] productImg;
+    private String productImg;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
