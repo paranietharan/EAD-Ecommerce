@@ -1,6 +1,7 @@
 package com.teamz.order.DTO;
 
 import com.teamz.order.entity.OrderLine;
+import com.teamz.order.entity.ShippingDetails;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,4 +13,5 @@ public class OrderRequest {
     private List<OrderLine> orderLines;
     private Integer customerId;
     private Long paymentId;
+    private ShippingDetails shippingDetails;
 }

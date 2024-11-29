@@ -24,9 +24,6 @@ public class OrderService {
     private final OrderLineRepository orderLineRepository;
     private final ProductClient productClient;
 
-
-
-
     public OrderService(OrderRepository orderRepository, OrderLineRepository orderLineRepository, ProductClient productClient) {
         this.orderRepository = orderRepository;
         this.orderLineRepository = orderLineRepository;
@@ -54,6 +51,7 @@ public class OrderService {
                 .createdDate(order.getCreatedDate())
                 .customerId(order.getCustomerId())
                 .paymentId(order.getPaymentId())
+                .shippingDetails(order.getShippingDetails())
                 .build()).getContent();
     }
 
@@ -64,6 +62,7 @@ public class OrderService {
                 .createdDate(order.getCreatedDate())
                 .customerId(order.getCustomerId())
                 .paymentId(order.getPaymentId())
+                .shippingDetails(order.getShippingDetails())
                 .build()).collect(Collectors.toList());
     }
 
@@ -79,6 +78,7 @@ public class OrderService {
             order.setCustomerId(orderRequest.getCustomerId());
             order.setOrderLines(orderRequest.getOrderLines());
             order.setPaymentId(orderRequest.getPaymentId());
+            order.setShippingDetails(orderRequest.getShippingDetails());
             for (OrderLine orderLine : order.getOrderLines()) {
                 orderLine.setOrder(order);
                 productClient.updateQuantity(orderLine.getProductId(), orderLine.getQuantity());

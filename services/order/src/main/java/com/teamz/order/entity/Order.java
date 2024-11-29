@@ -34,4 +34,8 @@ public class Order {
     private List<OrderLine> orderLines;
     private Integer customerId;
     private Long paymentId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shipping_details_id", referencedColumnName = "id")
+    private ShippingDetails shippingDetails;
 }
