@@ -15,6 +15,6 @@ public record CartResponse (
         BigDecimal productPrice,
         @NotNull(message = "Product quantity is required")
         int quantity,
-        byte[] productImg
+        String productImg
 ){
 }

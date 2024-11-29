@@ -65,7 +65,7 @@ public class ProductService {
         product.setDescription(request.description());
 
         if(request.productImg() != null) {
-            product.setProductImg(request.productImg().getBytes());
+            product.setProductImg(request.productImg());
         } else {
             product.setProductImg(null);
         }
