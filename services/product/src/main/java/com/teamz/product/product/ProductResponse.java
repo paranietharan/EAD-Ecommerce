@@ -1,6 +1,7 @@
 package com.teamz.product.product;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record ProductResponse(
         Long id,
@@ -8,7 +9,7 @@ public record ProductResponse(
         String description,
         double availableQuantity,
         BigDecimal price,
-        String productImg,
+        List<String> productImg,
         Integer categoryId,
         String categoryName,
         String categoryDescription

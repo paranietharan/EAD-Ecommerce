@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record WishListResponse(
         @NotNull(message = "Product id is required")
@@ -16,6 +17,6 @@ public record WishListResponse(
         BigDecimal productPrice,
         @Positive(message = "Product quantity must be greater than 0")
         double productQuantity,
-        String productImg
+        List<String> productImg
 ) {
 }

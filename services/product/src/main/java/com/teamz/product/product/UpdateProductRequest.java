@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record UpdateProductRequest(
         @NotNull(message = "Product ID is required")
@@ -14,6 +15,6 @@ public record UpdateProductRequest(
         double availableQuantity,
         BigDecimal price,
         Integer categoryId,
-        String productImg
+        List<String> productImg
 ) {
 }

@@ -3,6 +3,7 @@ package com.teamz.product.cart;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record CartResponse (
         @NotNull(message = "Product id is required")
@@ -15,6 +16,6 @@ public record CartResponse (
         BigDecimal productPrice,
         @NotNull(message = "Product quantity is required")
         int quantity,
-        String productImg
+        List<String> productImg
 ){
 }
