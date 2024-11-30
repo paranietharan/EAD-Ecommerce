@@ -1,5 +1,6 @@
 package com.teamz.customer.controller;
 
+import com.teamz.customer.DTO.UserDetailsFromTokenDTO;
 import com.teamz.customer.entity.RefreshToken;
 import com.teamz.customer.entity.User;
 import com.teamz.customer.exceptions.UserAlreadyExistException;
@@ -84,14 +85,20 @@ public class AuthController {
     }
 
     @PostMapping("/getUserIdFromToken")
-    public ResponseEntity<Integer> getUserIdFromToken(@RequestBody ValidateTokenRequest validateTokenRequest) {
+    public ResponseEntity<UserDetailsFromTokenDTO> getUserIdFromToken(@RequestBody ValidateTokenRequest validateTokenRequest) {
         String token = validateTokenRequest.getToken();
         String username = jwtService.extractUsername(token); // Extract username from token
 
         // Find the user by username
         User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
 
-        return ResponseEntity.ok(user.getUserId());
+        UserDetailsFromTokenDTO userDetails=UserDetailsFromTokenDTO.builder()
+                .userId(user.getUserId())
+                .userRole(user.getRole())
+                .build();
+
+
+        return ResponseEntity.ok(userDetails);
 
     }
 }
