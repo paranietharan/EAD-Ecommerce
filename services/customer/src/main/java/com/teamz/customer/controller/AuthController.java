@@ -97,7 +97,6 @@ public class AuthController {
                 .userRole(user.getRole())
                 .build();
 
-
         return ResponseEntity.ok(userDetails);
 
     }
