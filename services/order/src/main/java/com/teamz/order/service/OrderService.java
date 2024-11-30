@@ -11,11 +11,13 @@ import com.teamz.order.entity.OrderLine;
 import com.teamz.order.repository.OrderLineRepository;
 import com.teamz.order.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,17 +49,39 @@ public class OrderService {
         return orderLineRepository.findByOrder(id);
     }
 
-    public List<OrderResponse> findAll(int page, int limit, String sortBy) {
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(sortBy));
-        return orderRepository.findAll(pageable).map(order -> OrderResponse.builder()
-                .id(order.getId())
-                .totalAmount(order.getTotalAmount())
-                .createdDate(order.getCreatedDate())
-                .customerId(order.getCustomerId())
-                .paymentId(order.getPaymentId())
-                .shippingDetails(order.getShippingDetails())
-                .build()).getContent();
+//    public List<OrderResponse> findAll(int page, int limit, String sortBy) {
+//        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(sortBy));
+//        return orderRepository.findAll(pageable).map(order -> OrderResponse.builder()
+//                .id(order.getId())
+//                .totalAmount(order.getTotalAmount())
+//                .createdDate(order.getCreatedDate())
+//                .customerId(order.getCustomerId())
+//                .paymentId(order.getPaymentId())
+//                .shippingDetails(order.getShippingDetails())
+//                .build()).getContent();
+//    }
+
+    public List<OrderResponse> findAll() {
+        List<Order> orders = orderRepository.findAll();
+        List<OrderResponse> orderResponse = new ArrayList<>();
+
+        for (Order order : orders) {
+            OrderResponse newOrder = OrderResponse.builder()
+                    .id(order.getId())
+                    .paymentId(order.getPaymentId())
+                    .totalAmount(order.getTotalAmount())
+                    .createdDate(order.getCreatedDate())
+                    .customerId(order.getCustomerId())
+                    .shippingDetails(order.getShippingDetails())
+                    .build();
+
+            orderResponse.add(newOrder);
+        }
+
+        return orderResponse;
     }
+
+
 
     public List<OrderResponse> findOrderByCustomerId(int customerId) {
         return orderRepository.findByCustomerId(customerId).stream().map(order -> OrderResponse.builder()

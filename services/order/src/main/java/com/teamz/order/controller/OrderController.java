@@ -30,13 +30,18 @@ public class OrderController {
         return ResponseEntity.ok(orderService.findById(orderId));
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<OrderResponse>> findAll(
+//            @RequestParam(defaultValue = "1") int page,
+//            @RequestParam(defaultValue = "100") int limit,
+//            @RequestParam(defaultValue = "id") String sortBy
+//    ) {
+//        return ResponseEntity.ok(orderService.findAll(page, limit, sortBy));
+//    }
+
     @GetMapping
-    public ResponseEntity<List<OrderResponse>> findAll(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "100") int limit,
-            @RequestParam(defaultValue = "id") String sortBy
-    ) {
-        return ResponseEntity.ok(orderService.findAll(page, limit, sortBy));
+    public ResponseEntity<List<OrderResponse>> findAll() {
+        return ResponseEntity.ok(orderService.findAll());
     }
 
     @GetMapping("/customer/{customer-id}")

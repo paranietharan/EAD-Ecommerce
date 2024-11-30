@@ -12,7 +12,6 @@ import java.util.List;
 
 @Data
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderResponse {
     private Integer id;
     private BigDecimal totalAmount;
@@ -20,6 +19,5 @@ public class OrderResponse {
     private Integer customerId;
     private String paymentId;
     private ShippingDetails shippingDetails;
-
 
 }
