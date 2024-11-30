@@ -3,6 +3,7 @@ package com.teamz.order.service;
 import com.teamz.order.DTO.OrderRequest;
 import com.teamz.order.DTO.OrderResponse;
 import com.teamz.order.DTO.UpdateOrderRequest;
+import com.teamz.order.config.PaymentClient;
 import com.teamz.order.config.ProductClient;
 import com.teamz.order.entity.Order;
 import com.teamz.order.entity.OrderLine;
@@ -23,11 +24,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderLineRepository orderLineRepository;
     private final ProductClient productClient;
+    private final PaymentClient paymentClient;
 
-    public OrderService(OrderRepository orderRepository, OrderLineRepository orderLineRepository, ProductClient productClient) {
+    public OrderService(OrderRepository orderRepository, OrderLineRepository orderLineRepository, ProductClient productClient, PaymentClient paymentClient) {
         this.orderRepository = orderRepository;
         this.orderLineRepository = orderLineRepository;
         this.productClient = productClient;
+        this.paymentClient = paymentClient;
     }
 
     public Boolean deleteOrder(Integer id) {
@@ -66,9 +69,13 @@ public class OrderService {
                 .build()).collect(Collectors.toList());
     }
 
+    private Boolean checkPaymentId(String paymentId){
+        return paymentClient.validatePaymentId(paymentId);
+    }
+
     public String createOrder(OrderRequest orderRequest){
-        if (orderRequest.getPaymentId() == null){
-            return "Payment ID is required";
+        if (!checkPaymentId(orderRequest.getPaymentId())){
+            return "Payment ID Not valid";
         }
         List<OrderLine> orderLines = orderRequest.getOrderLines();
         String checkProducts = CheckProductsOnOrderLine(orderLines);

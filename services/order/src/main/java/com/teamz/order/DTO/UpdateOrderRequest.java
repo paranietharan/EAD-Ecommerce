@@ -11,5 +11,5 @@ public class UpdateOrderRequest {
     private Integer orderId;
     private BigDecimal totalAmount;
     private List<OrderLine> orderLines;
-    private long paymentId;
+    private String paymentId;
 }

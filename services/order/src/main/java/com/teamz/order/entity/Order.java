@@ -33,7 +33,7 @@ public class Order {
     @ToString.Exclude
     private List<OrderLine> orderLines;
     private Integer customerId;
-    private Long paymentId;
+    private String paymentId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shipping_details_id", referencedColumnName = "id")
