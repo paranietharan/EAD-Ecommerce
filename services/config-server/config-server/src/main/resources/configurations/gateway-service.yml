@@ -12,9 +12,13 @@ spring:
         corsConfigurations:
           '[/**]': # Apply CORS to all paths
             allowedOrigins:
-              - "http://localhost:3000" # Your frontend origin
+              - "http://localhost:3000" # Frontend origin
             allowedMethods:
-              - GET,POST,PUT,DELETE,OPTIONS
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
             allowedHeaders:
               - "*" # Allow all headers
             allowCredentials: true # Allow cookies/auth headers
@@ -40,28 +44,27 @@ spring:
           uri: http://localhost:8070 # Backend product service
           predicates:
             - Path=/api/v1/products/**,/api/v1/category/**,/api/v1/cart/**,/api/v1/wishlist/**
-#          filters:
-#            - AuthenticationFilter
+          filters:
+            - AuthenticationFilter
 
         # Order Service
         - id: order-service
-          uri: http://localhost:7080 # Backend customer service
+          uri: http://localhost:7080 # Backend order service
           predicates:
             - Path=/api/v1/orders/**
           filters:
             - AuthenticationFilter
-            -
-        # payment service
+
+        # Payment Service
         - id: payment-service
-          uri: http://localhost:8010 # Backend customer service
+          uri: http://localhost:8010 # Backend payment service
           predicates:
             - Path=/api/v1/payment/**
           filters:
             - AuthenticationFilter
 
-
 # Eureka client configuration
 eureka:
   client:
-    register-with-ereka: false # Set to true if using Eureka for service discovery
-    fetch-registry: true        # Fetch registry only if needed
+    register-with-eureka: false # Set to true if using Eureka for service discovery
+    fetch-registry: false       # Fetch registry only if needed
