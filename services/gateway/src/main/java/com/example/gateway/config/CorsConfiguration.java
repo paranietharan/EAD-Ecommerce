@@ -15,7 +15,7 @@ public class CorsConfiguration extends org.springframework.web.cors.CorsConfigur
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowedOriginPatterns(Collections.singletonList("*")); // Use patterns instead of exact origins
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allow all necessary methods
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH")); // Allow all necessary methods
         corsConfig.setAllowedHeaders(Collections.singletonList("*")); // Allow all headers
         corsConfig.setAllowCredentials(true); // Enable cookies or authentication headers if needed
         corsConfig.setMaxAge(3600L); // Cache preflight responses for 1 hour
