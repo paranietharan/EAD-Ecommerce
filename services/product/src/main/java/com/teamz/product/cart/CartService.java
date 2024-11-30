@@ -99,4 +99,29 @@ public class CartService {
         cartItemRepository.delete(cartItem);
     }
 
+    public void updateQuantity(Long productId, int quantity, Long userId) {
+        // Get cart for the user
+        Cart cart = cartRepository.findByUserId(userId);
+
+        if (cart == null) {
+            throw new IllegalArgumentException("Cart not found for user ID: " + userId);
+        }
+
+        // Check if the product exists in the cart
+        CartItem cartItem = cartItemRepository.findByCartIdAndProductId(cart.getId(), productId);
+
+        if (cartItem != null) {
+            if (quantity > 0) {
+                // Update the quantity
+                cartItem.setQuantity(quantity);
+                cartItemRepository.save(cartItem);
+            } else {
+                // If quantity is 0, remove the item from the cart
+                cartItemRepository.delete(cartItem);
+            }
+        } else {
+            throw new IllegalArgumentException("Product not found in cart for product ID: " + productId);
+        }
+    }
+
 }

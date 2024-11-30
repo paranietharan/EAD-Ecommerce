@@ -1,6 +1,7 @@
 package com.teamz.product.cart;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,4 +41,20 @@ public class CartController {
         cartService.deleteItemFromCart(productId, userId);
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/updateCartQuantity/{productId}/{quantity}/{userId}")
+    public ResponseEntity<String> updateQuantity(
+            @PathVariable("productId") Long productId,
+            @PathVariable("quantity") int quantity,
+            @PathVariable("userId") Long userId) {
+        try {
+            cartService.updateQuantity(productId, quantity, userId);
+            return ResponseEntity.ok("Cart quantity updated successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while updating the cart.");
+        }
+    }
+
 }
