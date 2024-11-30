@@ -1,5 +1,6 @@
 package com.teamz.order.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,6 +37,7 @@ public class ShippingDetails {
     private Long postalCode;
 
     @OneToOne(mappedBy = "shippingDetails")
+    @JsonIgnore  // Prevent serialization of the circular reference
     private Order order;
 
 }

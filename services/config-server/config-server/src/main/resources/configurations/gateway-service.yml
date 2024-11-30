@@ -192,7 +192,6 @@ spring:
           filters:
             - AuthenticationFilter
 
-
 # Eureka client configuration
 eureka:
   client:

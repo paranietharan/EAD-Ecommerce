@@ -37,5 +37,6 @@ public class Order {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shipping_details_id", referencedColumnName = "id")
+    @JsonManagedReference
     private ShippingDetails shippingDetails;
 }
