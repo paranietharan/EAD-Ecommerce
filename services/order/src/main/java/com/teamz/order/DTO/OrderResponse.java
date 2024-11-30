@@ -18,7 +18,7 @@ public class OrderResponse {
     private BigDecimal totalAmount;
     private LocalDateTime createdDate;
     private Integer customerId;
-    private Long paymentId;
+    private String paymentId;
     private ShippingDetails shippingDetails;
 
 

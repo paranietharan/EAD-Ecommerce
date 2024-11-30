@@ -12,6 +12,6 @@ public class OrderRequest {
     private BigDecimal totalAmount;
     private List<OrderLine> orderLines;
     private Integer customerId;
-    private Long paymentId;
+    private String paymentId;
     private ShippingDetails shippingDetails;
 }

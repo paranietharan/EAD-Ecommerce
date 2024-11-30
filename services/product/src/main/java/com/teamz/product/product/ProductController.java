@@ -17,7 +17,7 @@ public class ProductController {
     private final ProductService service;
 
     // Adding a new product -tested
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Long> createProduct(
             @ModelAttribute @Valid ProductRequest request
@@ -54,7 +54,6 @@ public class ProductController {
         return ResponseEntity.ok(service.findAll(page, limit, sortBy, categoryId, minPrice, maxPrice));
     }
 
-
     // Updating a product
     @PutMapping
     public ResponseEntity<Void> updateProduct(
@@ -88,5 +87,4 @@ public class ProductController {
     ) {
         return service.updateQuantity(productId, quantity);
     }
-
 }
