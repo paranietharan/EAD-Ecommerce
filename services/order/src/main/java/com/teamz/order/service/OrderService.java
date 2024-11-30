@@ -2,6 +2,7 @@ package com.teamz.order.service;
 
 import com.teamz.order.DTO.OrderRequest;
 import com.teamz.order.DTO.OrderResponse;
+import com.teamz.order.DTO.PaymentIdResponseDTO;
 import com.teamz.order.DTO.UpdateOrderRequest;
 import com.teamz.order.config.PaymentClient;
 import com.teamz.order.config.ProductClient;
@@ -69,12 +70,12 @@ public class OrderService {
                 .build()).collect(Collectors.toList());
     }
 
-    private Boolean checkPaymentId(String paymentId){
+    private PaymentIdResponseDTO checkPaymentId(String paymentId){
         return paymentClient.validatePaymentId(paymentId);
     }
 
     public String createOrder(OrderRequest orderRequest){
-        if (!checkPaymentId(orderRequest.getPaymentId())){
+        if (!checkPaymentId(orderRequest.getPaymentId()).isSuccess()){
             return "Payment ID Not valid";
         }
         List<OrderLine> orderLines = orderRequest.getOrderLines();
