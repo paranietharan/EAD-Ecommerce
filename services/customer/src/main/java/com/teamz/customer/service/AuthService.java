@@ -2,6 +2,7 @@ package com.teamz.customer.service;
 
 import com.teamz.customer.entity.User;
 import com.teamz.customer.entity.UserRole;
+import com.teamz.customer.exceptions.UserAlreadyExistException;
 import com.teamz.customer.repository.UserRepository;
 import com.teamz.customer.utils.AuthResponse;
 import com.teamz.customer.utils.LoginRequest;
@@ -24,23 +25,29 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest registerRequest) {
-        var user = User.builder()
-                .name(registerRequest.getName())
-                .email(registerRequest.getEmail())
-                .userName(registerRequest.getUserName())
-                .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .role(registerRequest.getUserRole())
-                .build();
+            var user = User.builder()
+                    .name(registerRequest.getName())
+                    .email(registerRequest.getEmail())
+                    .userName(registerRequest.getUserName())
+                    .password(passwordEncoder.encode(registerRequest.getPassword()))
+                    .role(registerRequest.getUserRole()==null?UserRole.USER:registerRequest.getUserRole())
+                    .build();
 
-        User savedUser = userRepository.save(user);
-        var accessToken = jwtService.generateToken(savedUser);
-        var refreshToken = refreshTokenService.createRefreshToken(savedUser.getEmail());
+        if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
+            throw new UserAlreadyExistException("A user with the provided email already exists.");
+        }
+        else {
+            User savedUser = userRepository.save(user);
+            var accessToken = jwtService.generateToken(savedUser);
+            var refreshToken = refreshTokenService.createRefreshToken(savedUser.getEmail());
 
-        return AuthResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken.getRefreshToken())
-                .build();
+            return AuthResponse.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken.getRefreshToken())
+                    .build();
+        }
     }
+
 
     public AuthResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(
